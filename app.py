@@ -1,7 +1,16 @@
 """VADM Research Terminal: a generic dashboard for delivery-enabled NSE symbols."""
 
 from __future__ import annotations
+from pathlib import Path
+import sys
 
+# Streamlit Cloud may execute an app from a nested source directory (for
+# example /mount/src/vadm_engine/app.py). Add the directory containing the
+# sibling ``vadm`` package, rather than relying on the process working dir.
+APP_DIR = Path(__file__).resolve().parent
+for candidate in (APP_DIR, APP_DIR.parent):
+    if (candidate / "vadm").is_dir() and str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
